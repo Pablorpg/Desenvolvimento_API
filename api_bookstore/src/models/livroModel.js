@@ -37,6 +37,14 @@ const livroModel = conn.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    imagem_capa:{
+      type: DataTypes.STRING,
+      defaultValue: 'filename'
+    },
+    imagem_url: {
+      type: DataTypes.STRING,
+      defaultValue: 'caminhoDaImagem'
+    }
   },
   {
     tableName: "livros",

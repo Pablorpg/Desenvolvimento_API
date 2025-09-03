@@ -151,8 +151,6 @@ export const buscarLivro = async (request, response) => {
     }
 }
 
-
-
 export const AtualizarLivro = async (request, response) => {
     try {
         const { id } = request.params
@@ -194,4 +192,35 @@ export const DeletarLivro = async (request, response) => {
     } catch (error) {
         response.status(500).json({ mensage: "Erro interno ao listar Livros.", error: error.message })
     }
+}
+
+// Controladores das rotas de imagens
+export const cadastrarCapaLivro = async (request, response) => {
+    const { id } = request.params
+    const { filename, path } = request.file
+
+    if(!id){
+        response.status(400).json({mensagem: "O Id é obrigatório"})
+        return
+    }
+
+    try {
+        const livro = await livroModel.findByPk(id)
+
+        if(!livro){
+            response.status(404).json({mensagem: "Livro não existe"})
+            return
+        }
+
+        livro.imagem_capa = filename
+        livro.imagem_capa = path
+        await livro.save()
+
+        response.status(200).json({mensagem: "Capa cadastrada", livro})
+
+    } catch (error) {
+        console.log(error)
+        response.status(500).json({mensagem: "Erro interno aocadastrar capa"})
+    }
+
 }
